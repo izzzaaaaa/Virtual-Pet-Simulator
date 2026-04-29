@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string> 
 using namespace std;
 
 class Pet {
@@ -13,6 +14,7 @@ public:
     virtual void feed(float amount);
     virtual void play();
     virtual void sleep();
+    virtual void update(float deltaTime);
 
     bool isAlive();
     bool isHungry();
@@ -87,6 +89,36 @@ void Pet::play() {
     cout << name << " played happily!" << endl;
 }
 
+void Pet::update(float deltaTime) {
+    if (!alive) {
+        return;
+    }
+    
+    //increases hunger over time
+    hunger += 5 * deltaTime;
+    if (hunger > 100) {
+        hunger = 100;
+    }
+    
+    //decreases energy over time  
+    energy -= 3 * deltaTime;
+    if (energy < 0) {
+        energy = 0;
+    }
+    
+    //decreases happiness slowly
+    happiness -= 2 * deltaTime;
+    if (happiness < 0){
+        happiness = 0;
+    }
+    
+    //checks if pet dies
+    if (hunger >= 100 || energy <= 0 || health <= 0) {
+        alive = false;
+        cout << name << " has died!" << endl;
+    }
+}
+
 // Make pet sleep
 void Pet::sleep() {
     if (!alive) {
@@ -126,6 +158,77 @@ bool Pet::isSick() {
 string Pet::getName() {
     return name;
 }
+
+//cat class
+class Cat : public Pet {
+public:
+    Cat(string name);
+
+    void makeSound() override;
+    void draw() override;
+    string getType() override;
+
+    void purr();
+    void scratch();
+
+private:
+    float playfulness;
+};
+
+//cat constructor
+Cat::Cat(string n) : Pet(n) {
+    playfulness = 80;
+}
+
+void Cat::makeSound() {
+    cout << name << " says: Meow! Meow!" << endl;
+}
+
+// Cat draw 
+void Cat::draw() {
+    cout << "   /\\_/\\  " << endl;
+    cout << "  ( o.o ) " << endl;
+    cout << "   > ^ <  " << endl;
+    cout << "  " << name << " the Cat" << endl;
+}
+
+//cat getType 
+string Cat::getType() {
+    return "Cat";
+}
+
+//cat specific functions
+void Cat::purr() {
+    if (!alive) {
+        cout << name << " is dead. Cannot purr." << endl;
+        return;
+    }
+    cout << name << " purrs: Prrrrrrr Prrrrrr..." << endl;
+    happiness += 5;
+    if (happiness > 100){
+        happiness = 100;
+    }
+}
+
+void Cat::scratch() {
+    if (!alive) {
+        cout << name << " is dead. Cannot scratch." << endl;
+        return;
+    }
+    
+    if (energy < 10) {
+        cout << name << " is too tired to scratch." << endl;
+        return;
+    }
+    
+    cout << name << " scratches the furniture!" << endl;
+    energy -= 10;
+    happiness += 10;
+    if (happiness > 100) {
+        happiness = 100;
+    }
+}
+
 
 int main() {
     cout << "Hello from my virtual pet simulator!" << endl;
