@@ -90,7 +90,7 @@ void Pet::play() {
 }
 
 void Pet::update(float deltaTime) {
-    if (!alive) {
+     if (!alive) {
         return;
     }
     
@@ -99,17 +99,29 @@ void Pet::update(float deltaTime) {
     if (hunger > 100) {
         hunger = 100;
     }
+    //warning
+    if (isHungry() && hunger < 95) {
+        cout << name << " is getting hungry!" << endl;
+    }
     
     //decreases energy over time  
     energy -= 3 * deltaTime;
     if (energy < 0) {
         energy = 0;
     }
+    //warning
+    if (isTired() && energy > 10) {
+        cout << name << " is getting tired!" << endl;
+    }
     
     //decreases happiness slowly
     happiness -= 2 * deltaTime;
     if (happiness < 0){
         happiness = 0;
+    }
+    //warning
+    if (happiness < 30 && happiness > 10) {
+        cout << name << " looks a bit sad..." << endl;
     }
     
     //checks if pet dies
