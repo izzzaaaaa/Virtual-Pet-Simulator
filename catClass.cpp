@@ -1,5 +1,4 @@
 #include <iostream>
-#include "petClass.cpp"
 using namespace std;
 
 class Cat : public Pet {

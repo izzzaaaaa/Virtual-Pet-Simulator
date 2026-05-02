@@ -1,6 +1,9 @@
 #include <iostream>
 #include <string>
 #include "petClass.cpp"
+#include "dogClass.cpp"
+#include "catClass.cpp"
+#include "dragonClass.cpp"
 
 using namespace std;
 
