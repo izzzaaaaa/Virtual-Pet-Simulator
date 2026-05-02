@@ -5,9 +5,9 @@ class Cat : public Pet {
 public:
     Cat(string name);
 
-    void makeSound() override;
-    void draw() override;
-    string getType() override;
+    void makeSound() ;
+    void draw() ;
+    string getType() ;
 
     void purr();
     void scratch();

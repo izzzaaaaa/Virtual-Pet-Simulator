@@ -1,5 +1,9 @@
 #include <iostream>
-#include "petClass.cpp"
+#include "GameManager.cpp"
 using namespace std;
 
-int main(){}
+int main(){
+    GameManager game;
+    game.run();
+    return 0;
+}

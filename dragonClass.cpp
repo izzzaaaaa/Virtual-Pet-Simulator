@@ -5,9 +5,9 @@ class Dragon : public Pet {
 public:
     Dragon(string name);
 
-    void makeSound() override;
-    void draw() override;
-    string getType() override;
+    void makeSound() ;
+    void draw() ;
+    string getType() ;
 
     void breatheFire();
 
