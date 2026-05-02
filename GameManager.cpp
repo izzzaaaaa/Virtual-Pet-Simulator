@@ -182,3 +182,95 @@ void GameManager::usePetAction(char choice) {
     }
     cout << "Unknown command. Press H for controls." << endl;
 }
+
+
+//handle user input
+void GameManager::handleInput() {
+    char choice;
+    cout << "\nEnter command: ";
+    cin >> choice;
+    
+    choice = tolower(choice);
+    
+    if (!activePet) return;
+    
+    switch (choice) {
+        case 'f':
+            if (activePet->isAlive()) {
+                float amount;
+                cout << "How much food? (10-50): ";
+                cin >> amount;
+                if (amount < 10) amount = 10;
+                if (amount > 50) amount = 50;
+                activePet->feed(amount);
+            } else {
+                cout << activePet->getName() << " is dead." << endl;
+            }
+            break;
+            
+        case 'p':
+            if (activePet->isAlive()) {
+                activePet->play();
+            } else {
+                cout << activePet->getName() << " is dead." << endl;
+            }
+            break;
+            
+        case 's':
+            if (activePet->isAlive()) {
+                activePet->sleep();
+            }
+            break;
+            
+        case 'm':
+            if (activePet->isAlive()) {
+                activePet->makeSound();
+            }
+            break;
+            
+        case 'd':
+            activePet->draw();
+            break;
+            
+        case 't':
+            displayStats();
+            break;
+            
+        case 'h':
+            showControls();
+            break;
+            
+        case 'q':
+            cout << "\nGoodbye! Thanks for playing!" << endl;
+            isRunning = false;
+            break;
+            
+        default:
+            usePetAction(choice);
+            break;
+    }
+}
+
+//update game state
+void GameManager::update() {
+    if (activePet != nullptr && activePet->isAlive()) {
+        activePet->update(1.0f);
+    }
+}
+
+//main game loop
+void GameManager::run() {
+    showControls();
+    
+    while (isRunning && activePet != nullptr && activePet->isAlive()) {
+        displayStats();
+        activePet->draw();
+        handleInput();
+        update();
+    }
+    
+    if (activePet != nullptr && !activePet->isAlive()) {
+        cout << "\n " << activePet->getName() << " has died! Game Over!" << endl;
+        cout << "\nRestart the program to get a new pet." << endl;
+    }
+}
