@@ -23,7 +23,21 @@ public:
     bool isHungry();
     bool isTired();
     bool isSick();
+    //getters
     string getName();
+    float getHunger();
+    float getEnergy();
+    float getHappiness();
+    float getHealth();
+    int getAge();
+    //setters
+    void setName(string n);
+    void setHunger(float h);
+    void setEnergy(float e);
+    void setHappiness(float h);
+    void setHealth(float H);
+    void setAge(int a);
+
 
 protected:
     string name;
@@ -173,4 +187,36 @@ bool Pet::isSick() {
 string Pet::getName() {
     return name;
 }
-
+float Pet::getHunger(){ 
+    return hunger;
+}
+float Pet::getEnergy(){
+    return energy;
+}
+float Pet::getHappiness(){
+    return happiness;
+}
+float Pet::getHealth(){
+    return health;
+}
+int Pet::getAge(){
+    return age;
+}
+void Pet::setName(string n){
+    name=n;
+}
+void Pet::setHunger(float h){
+    hunger=h;
+}
+void Pet::setEnergy(float e){
+    energy=e;
+}
+void Pet::setHappiness(float h){
+    happiness=h;
+}
+void Pet::setHealth(float H){
+    health=H;
+}
+void Pet::setAge(int a){
+    age=a;
+}
