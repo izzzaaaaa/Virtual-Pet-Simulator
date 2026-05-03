@@ -1,6 +1,9 @@
 #include <iostream>
 #include <string>
 #include "petClass.cpp"
+#include "dogClass.cpp"
+#include "catClass.cpp"
+#include "dragonClass.cpp"
 
 using namespace std;
 
@@ -26,7 +29,7 @@ private:
 
 //constructor
 GameManager::GameManager() {
-    activePet = nullptr;
+    activePet = NULL;
     isRunning = true;
     petName = "";
     createPetMenu();
@@ -34,9 +37,9 @@ GameManager::GameManager() {
 
 //destructor
 GameManager::~GameManager() {
-    if (activePet != nullptr) {
+    if (activePet != NULL) {
         delete activePet;
-        activePet = nullptr;
+        activePet = NULL;
     }
 }
 
@@ -87,12 +90,12 @@ void GameManager::displayStats() {
     
     cout << "\n========================================" << endl;
     cout << "Pet: " << activePet->getName() << " (" << activePet->getType() << ")" << endl;
-    cout << "Status: " << (activePet->isAlive() ? "?? ALIVE" : "?? DEAD") << endl;
+    cout << "Status: " << (activePet->isAlive() ? "  ALIVE" : "  DEAD") << endl;
     
     if (activePet->isAlive()) {
-        cout << "Hungry: " << (activePet->isHungry() ? "?? YES" : "? No") << endl;
-        cout << "Tired: " << (activePet->isTired() ? "?? YES" : "? No") << endl;
-        cout << "Sick: " << (activePet->isSick() ? "?? YES" : "? No") << endl;
+        cout << "Hungry: " << (activePet->isHungry() ? "  YES" : "? No") << endl;
+        cout << "Tired: " << (activePet->isTired() ? "  YES" : "? No") << endl;
+        cout << "Sick: " << (activePet->isSick() ? "  YES" : "? No") << endl;
     }
     cout << "========================================" << endl;
 }
@@ -143,7 +146,7 @@ void GameManager::usePetAction(char choice) {
     //cat actions
     if (petType == "Cat") {
         Cat* cat = dynamic_cast<Cat*>(activePet);
-        if (cat != nullptr) {
+        if (cat != NULL) {
             if (choice == 'r') {
                 cat->purr();
                 return;
@@ -158,7 +161,7 @@ void GameManager::usePetAction(char choice) {
     //dog actions
     if (petType == "Dog") {
         Dog* dog = dynamic_cast<Dog*>(activePet);
-        if (dog != nullptr) {
+        if (dog != NULL) {
             if (choice == 'b') {
                 dog->bark();
                 return;
@@ -173,7 +176,7 @@ void GameManager::usePetAction(char choice) {
     //dragon actions
     if (petType == "Dragon") {
         Dragon* dragon = dynamic_cast<Dragon*>(activePet);
-        if (dragon != nullptr) {
+        if (dragon != NULL) {
             if (choice == 'b') {
                 dragon->breatheFire();
                 return;
@@ -181,4 +184,95 @@ void GameManager::usePetAction(char choice) {
         }
     }
     cout << "Unknown command. Press H for controls." << endl;
+}
+
+
+//handle user input
+void GameManager::handleInput() {
+    char choice;
+    cout << "\nEnter command: ";
+    cin >> choice;
+    
+    choice = tolower(choice);
+    
+    if (!activePet) return;
+    
+    switch (choice) {
+        case 'f':
+            if (activePet->isAlive()) {
+                float amount;
+                cout << "How much food? (10-50): ";
+                cin >> amount;
+                if (amount < 10) amount = 10;
+                if (amount > 50) amount = 50;
+                activePet->feed(amount);
+            } else {
+                cout << activePet->getName() << " is dead." << endl;
+            }
+            break;
+            
+        case 'p':
+            if (activePet->isAlive()) {
+                activePet->play();
+            } else {
+                cout << activePet->getName() << " is dead." << endl;
+            }
+            break;
+            
+        case 's':
+            if (activePet->isAlive()) {
+                activePet->sleep();
+            }
+            break;
+            
+        case 'm':
+            if (activePet->isAlive()) {
+                activePet->makeSound();
+            }
+            break;
+            
+        case 'd':
+            activePet->draw();
+            break;
+            
+        case 't':
+            displayStats();
+            break;
+            
+        case 'h':
+            showControls();
+            break;
+            
+        case 'q':
+            cout << "\nGoodbye! Thanks for playing!" << endl;
+            isRunning = false;
+            break;
+            
+        default:
+            usePetAction(choice);
+            break;
+    }
+}
+
+//update game state
+void GameManager::update() {
+    if (activePet != NULL && activePet->isAlive()) {
+        activePet->update(1.0f);
+    }
+}
+
+//main game loop
+void GameManager::run() {
+    showControls();
+    
+    while (isRunning && activePet != NULL && activePet->isAlive()) {
+        displayStats();
+        handleInput();
+        update();
+    }
+    
+    if (activePet != NULL && !activePet->isAlive()) {
+        cout << "\n " << activePet->getName() << " has died! Game Over!" << endl;
+        cout << "\nRestart the program to get a new pet." << endl;
+    }
 }
