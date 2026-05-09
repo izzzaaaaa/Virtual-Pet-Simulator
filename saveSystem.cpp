@@ -2,6 +2,9 @@
 #include<string>
 #include<fstream>
 #include "petClass.cpp"
+#include "dogClass.cpp"
+#include "catClass.cpp"
+#include "dragonClass.cpp"
 
 using namespace std;
 
@@ -12,7 +15,7 @@ class SaveSystem{
     
 };
     void SaveSystem::saveGame(const Pet& pet){
-
+        
     ofstream file("game_stats.txt");
     if(!file){
     cout<<"Could not open file for saving!" <<endl;
@@ -26,14 +29,14 @@ class SaveSystem{
         file << pet.getAge() <<endl;
 
         file.close();
-        cout<<"Game stats save successfully!" <<endl;
+        cout<<"\nGame stats saved successfully!" <<endl<<endl;
 
 }
     void SaveSystem::loadGame(Pet& pet){
 
     ifstream file("game_stats.txt");
     if(!file){
-        cout<<"Could not open file for loading!" <<endl;
+        cout<<"Could not open file for loading!" <<endl<<endl;
         return;
     }
     
@@ -51,5 +54,5 @@ class SaveSystem{
     pet.setAge(age);
 
     file.close();
-    cout<<"Game loaded successfully!" <<endl;
+    cout<<"\nGame loaded successfully!" <<endl<<endl;
 }
