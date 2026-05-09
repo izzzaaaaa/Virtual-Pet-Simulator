@@ -1,19 +1,6 @@
-#include <iostream>
+#include "dragonClass.h"
 using namespace std;
 
-class Dragon : public Pet {
-public:
-    Dragon(string name);
-
-    void makeSound() ;
-    void draw() ;
-    string getType() ;
-
-    void breatheFire();
-
-private:
-    float fireLevel;
-};
 
 // Dragon constructor
 Dragon::Dragon(string n) : Pet(n) {

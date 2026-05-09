@@ -1,20 +1,6 @@
-#include <iostream>
+#include "catClass.h"
 using namespace std;
 
-class Cat : public Pet {
-public:
-    Cat(string name);
-
-    void makeSound() ;
-    void draw() ;
-    string getType() ;
-
-    void purr();
-    void scratch();
-
-private:
-    float playfulness;
-};
 
 //cat constructor
 Cat::Cat(string n) : Pet(n) {
