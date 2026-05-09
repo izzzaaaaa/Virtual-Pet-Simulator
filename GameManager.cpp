@@ -303,7 +303,7 @@ void GameManager::saveGame(){
 
 void GameManager::loadGame(){
     int choice;
-    cout<<"What type of pet did was saved?\n1. Cat\n2. Dog\n3. Dragon\n";
+    cout<<"What type of pet did you save?\n1. Cat\n2. Dog\n3. Dragon\n";
     cin >> choice;
     switch(choice){
         case 1:
