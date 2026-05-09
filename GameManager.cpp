@@ -1,30 +1,11 @@
-#include <iostream>
-#include <string>
-#include "SaveSystem.cpp"
+#include "GameManager.h"
+#include "saveSystem.h"
+#include "catClass.h"
+#include "dogClass.h"
+#include "dragonClass.h"
 
 using namespace std;
 
-//headers
-class GameManager{
-public:
-    GameManager();
-    ~GameManager();
-    void run();
-
-private:
-    void handleInput();
-    void update();
-    void displayStats();
-    void showControls();
-    void createPetMenu();
-    void usePetAction(char choice);
-    void saveGame();
-    void loadGame();
-
-    Pet* activePet;
-    bool isRunning;
-    string petName;
-};
 
 //constructor
 GameManager::GameManager() {
@@ -101,15 +82,35 @@ void GameManager::createPetMenu() {
 //stats display
 void GameManager::displayStats() {
     if (!activePet) return;
-    
+
     cout << "\n========================================" << endl;
     cout << "Pet: " << activePet->getName() << " (" << activePet->getType() << ")" << endl;
-    cout << "Status: " << (activePet->isAlive() ? "  ALIVE" : "  DEAD") << endl;
-    
+    cout << "Status: " << (activePet->isAlive() ? "ALIVE" : "DEAD") << endl;
+
     if (activePet->isAlive()) {
-        cout << "Hungry: " << (activePet->isHungry() ? "  YES" : "No") << endl;
-        cout << "Tired: " << (activePet->isTired() ? "  YES" : "No") << endl;
-        cout << "Sick: " << (activePet->isSick() ? "  YES" : "No") << endl;
+        int hungerFill = (int)((100 - activePet->getHunger()) / 10);
+        cout << "Fullness:  [";
+        for (int i = 0; i < 10; i++) 
+            cout << (i < hungerFill ? "#" : "-");
+        cout << "] " << (int)(100 - activePet->getHunger()) << "%" << endl;
+
+        int energyFill = (int)(activePet->getEnergy() / 10);
+        cout << "Energy:    [";
+        for (int i = 0; i < 10; i++) 
+            cout << (i < energyFill ? "#" : "-");
+        cout << "] " << (int)activePet->getEnergy() << "%" << endl;
+
+        int happinessFill = (int)(activePet->getHappiness() / 10);
+        cout << "Happiness: [";
+        for (int i = 0; i < 10; i++)
+            cout << (i < happinessFill ? "#" : "-");
+        cout << "] " << (int)activePet->getHappiness() << "%" << endl;
+
+        int healthFill = (int)(activePet->getHealth() / 10);
+        cout << "Health:    [";
+        for (int i = 0; i < 10; i++)
+            cout << (i < healthFill ? "#" : "-");
+        cout << "] " << (int)activePet->getHealth() << "%" << endl;
     }
     cout << "========================================" << endl;
 }
@@ -203,14 +204,14 @@ void GameManager::usePetAction(char choice) {
 
 
 //handle user input
-void GameManager::handleInput() {
+bool GameManager::handleInput() {
     char choice;
     cout << "\nEnter command: ";
     cin >> choice;
     
     choice = tolower(choice);
     
-    if (!activePet) return;
+    if (!activePet) return false;
     
     switch (choice) {
         case 'f':
@@ -224,52 +225,53 @@ void GameManager::handleInput() {
             } else {
                 cout << activePet->getName() << " is dead." << endl;
             }
-            break;
+        return true;
             
         case 'p':
             if (activePet->isAlive()) {
                 activePet->play();
-            } else {
-                cout << activePet->getName() << " is dead." << endl;
-            }
-            break;
+        } else {
+            cout << activePet->getName() << " is dead." << endl;
+        }
+        return true;
             
         case 's':
             if (activePet->isAlive()) {
                 activePet->sleep();
             }
-            break;
+            return true;
             
         case 'm':
             if (activePet->isAlive()) {
                 activePet->makeSound();
             }
-            break;
+            return true;
+
             
         case 'd':
             activePet->draw();
-            break;
+            return false;
             
         case 't':
             displayStats();
-            break;
+            return false;
             
         case 'h':
             showControls();
-            break;
+            return false;
         
         case 'x':
             saveGame();
-            break;
+            return false;
             
         case 'q':
             cout << "\nGoodbye! Thanks for playing!" << endl;
             isRunning = false;
-            break;
+            return false;
             
         default:
             usePetAction(choice);
-            break;
+            return true;
     }
 }
 
@@ -286,8 +288,8 @@ void GameManager::run() {
     
     while (isRunning && activePet != NULL && activePet->isAlive()) {
         displayStats();
-        handleInput();
-        update();
+        bool acted = handleInput();
+        if (acted) update();
     }
     
     if (activePet != NULL && !activePet->isAlive()) {

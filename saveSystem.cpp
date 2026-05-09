@@ -1,20 +1,12 @@
-#include<iostream>
-#include<string>
-#include<fstream>
-#include "petClass.cpp"
-#include "dogClass.cpp"
-#include "catClass.cpp"
-#include "dragonClass.cpp"
-
+#include "saveSystem.h"
+#include "catClass.h"
+#include "dogClass.h"
+#include "dragonClass.h"
+#include <iostream>
+#include <fstream>
 using namespace std;
 
-class SaveSystem{
-    public:
-    static void saveGame(const Pet& pet);
-    static void loadGame(Pet& pet);
-    
-};
-    void SaveSystem::saveGame(const Pet& pet){
+void SaveSystem::saveGame(const Pet& pet){
         
     ofstream file("game_stats.txt");
     if(!file){

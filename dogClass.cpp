@@ -1,21 +1,7 @@
-#include <iostream>
+#include "dogClass.h"
 using namespace std;
 
 
-class Dog : public Pet {
-public:
-    Dog(string name);
-
-    void makeSound() ;
-    void draw() ;
-    string getType() ;
-
-    void bark();
-    void fetch();
-
-private:
-    float loyalty;
-};
 
 // Dog constructor
 Dog::Dog(string n) : Pet(n) {
