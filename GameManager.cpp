@@ -302,7 +302,21 @@ void GameManager::saveGame(){
 }
 
 void GameManager::loadGame(){
-        activePet = new Dragon("LoadedPet");
+    int choice;
+    cout<<"What type of pet did was saved?\n1. Cat\n2. Dog\n3. Dragon\n";
+    cin >> choice;
+    switch(choice){
+        case 1:
+            activePet = new Cat("LoadedPet");
+            break;
+        case 2:
+            activePet = new Dog("LoadedPet");
+            break;
+        case 3:
+            activePet = new Dragon("LoadedPet");
+            break;
+    }
+        
     SaveSystem::loadGame(*activePet);
 
 }
