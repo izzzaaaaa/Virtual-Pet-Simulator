@@ -93,9 +93,9 @@ void GameManager::displayStats() {
     cout << "Status: " << (activePet->isAlive() ? "  ALIVE" : "  DEAD") << endl;
     
     if (activePet->isAlive()) {
-        cout << "Hungry: " << (activePet->isHungry() ? "  YES" : "? No") << endl;
-        cout << "Tired: " << (activePet->isTired() ? "  YES" : "? No") << endl;
-        cout << "Sick: " << (activePet->isSick() ? "  YES" : "? No") << endl;
+        cout << "Hungry: " << (activePet->isHungry() ? "  YES" : "No") << endl;
+        cout << "Tired: " << (activePet->isTired() ? "  YES" : "No") << endl;
+        cout << "Sick: " << (activePet->isSick() ? "  YES" : "No") << endl;
     }
     cout << "========================================" << endl;
 }
