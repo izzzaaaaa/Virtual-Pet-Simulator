@@ -1,9 +1,6 @@
 #include <iostream>
 #include <string>
-#include "petClass.cpp"
-#include "dogClass.cpp"
-#include "catClass.cpp"
-#include "dragonClass.cpp"
+#include "SaveSystem.cpp"
 
 using namespace std;
 
@@ -21,6 +18,8 @@ private:
     void showControls();
     void createPetMenu();
     void usePetAction(char choice);
+    void saveGame();
+    void loadGame();
 
     Pet* activePet;
     bool isRunning;
@@ -32,7 +31,24 @@ GameManager::GameManager() {
     activePet = NULL;
     isRunning = true;
     petName = "";
-    createPetMenu();
+    int choice;
+    cout << "\n========================================" << endl;
+    cout << "     VIRTUAL PET SIMULATOR" << endl;
+    cout << "========================================" << endl;
+    cout<<"\n1. Load saved game "<< endl << "2. Create new pet" <<endl;
+    cout<<"Enter choice (1-2)" <<endl;
+    cin>>choice;
+    switch (choice){
+        case 1:
+            loadGame();
+                if(activePet==NULL)
+                createPetMenu();
+                break;
+        case 2:
+            createPetMenu();
+            break;
+    }
+    
 }
 
 //destructor
@@ -48,9 +64,7 @@ void GameManager::createPetMenu() {
     int choice;
     string name;
     
-    cout << "\n========================================" << endl;
-    cout << "     VIRTUAL PET SIMULATOR" << endl;
-    cout << "========================================" << endl;
+    
     cout << "\nChoose your pet:" << endl;
     cout << "1. Cat" << endl;
     cout << "2. Dog" << endl;
@@ -61,7 +75,7 @@ void GameManager::createPetMenu() {
     cout << "Enter a name for your pet: ";
     cin >> name;
     petName = name;
-    
+
     switch (choice) {
         case 1:
             activePet = new Cat(name);
@@ -111,6 +125,7 @@ void GameManager::showControls() {
     cout << "D - Draw pet" << endl;
     cout << "T - Show stats" << endl;
     cout << "H - Show controls" << endl;
+    cout << "X - Save game" <<endl;
     cout << "Q - Quit game" << endl;
     
     //showing pet specific controls
@@ -242,6 +257,10 @@ void GameManager::handleInput() {
         case 'h':
             showControls();
             break;
+        
+        case 'x':
+            saveGame();
+            break;
             
         case 'q':
             cout << "\nGoodbye! Thanks for playing!" << endl;
@@ -275,4 +294,15 @@ void GameManager::run() {
         cout << "\n " << activePet->getName() << " has died! Game Over!" << endl;
         cout << "\nRestart the program to get a new pet." << endl;
     }
+}
+
+void GameManager::saveGame(){
+    if(activePet!=NULL)
+        SaveSystem::saveGame(*activePet);
+}
+
+void GameManager::loadGame(){
+        activePet = new Dragon("LoadedPet");
+    SaveSystem::loadGame(*activePet);
+
 }
