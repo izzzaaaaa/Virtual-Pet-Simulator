@@ -176,7 +176,7 @@ void Pet::setAge(int a){
     age=a;
 }
 
-ostream& operator<<(ostream& os, const Pet& pet) {
+ostream& operator<<(ostream& os, const Pet& pet) { //operator overloading used here
     os << "Name: " << pet.name << endl;
     os << "Hunger: " << pet.hunger << endl;
     os << "Energy: " << pet.energy << endl;

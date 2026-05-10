@@ -88,7 +88,7 @@ void GameManager::displayStats() {
     cout << "Status: " << (activePet->isAlive() ? "ALIVE" : "DEAD") << endl;
 
     if (activePet->isAlive()) {
-        cout << *activePet;
+        cout << *activePet;     //display func routed to << operator overloaded friend func
 
         int hungerFill = (int)((100 - activePet->getHunger()) / 10);
         cout << "Fullness:  [";
