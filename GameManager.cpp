@@ -88,6 +88,8 @@ void GameManager::displayStats() {
     cout << "Status: " << (activePet->isAlive() ? "ALIVE" : "DEAD") << endl;
 
     if (activePet->isAlive()) {
+        cout << *activePet;
+
         int hungerFill = (int)((100 - activePet->getHunger()) / 10);
         cout << "Fullness:  [";
         for (int i = 0; i < 10; i++) 

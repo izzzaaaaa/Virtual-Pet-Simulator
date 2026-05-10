@@ -26,6 +26,7 @@ public:
     bool isSick();
 
     // getters
+    friend ostream& operator<<(ostream& os, const Pet& pet); //friend func
     string getName() const;
     float getHunger() const;
     float getEnergy() const;

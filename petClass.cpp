@@ -175,3 +175,12 @@ void Pet::setHealth(float H){
 void Pet::setAge(int a){
     age=a;
 }
+
+ostream& operator<<(ostream& os, const Pet& pet) {
+    os << "Name: " << pet.name << endl;
+    os << "Hunger: " << pet.hunger << endl;
+    os << "Energy: " << pet.energy << endl;
+    os << "Happiness: " << pet.happiness << endl;
+    os << "Health: " << pet.health << endl;
+    return os;
+}
